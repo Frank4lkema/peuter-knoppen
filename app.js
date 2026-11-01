@@ -82,7 +82,14 @@ function unlockAudio() {
     master.gain.value = 0.5;
     master.connect(limiter).connect(audio.destination);
   }
-  if (audio.state !== 'running') audio.resume().catch(() => {});
+  if (audio.state !== 'running') {
+    audio.resume().catch(() => {});
+    // iOS only starts audio for a sound played during the gesture, so play a silent one.
+    const silence = audio.createBufferSource();
+    silence.buffer = audio.createBuffer(1, 1, audio.sampleRate);
+    silence.connect(audio.destination);
+    silence.start();
+  }
 }
 
 function tone(frequency, { to = frequency, type = 'sine', duration = 0.2, level = 0.6, delay = 0 } = {}) {

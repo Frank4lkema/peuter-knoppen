@@ -54,7 +54,9 @@ def write_png(path, size):
     path.write_bytes(b"\x89PNG\r\n\x1a\n" + body)
 
 
-output = pathlib.Path(__file__).resolve().parent.parent / "icons"
+root = pathlib.Path(__file__).resolve().parent.parent
+output = root / "icons"
 output.mkdir(exist_ok=True)
 for size in (180, 192, 512):
     write_png(output / f"icon-{size}.png", size)
+write_png(root / "ios" / "Knoppen" / "Assets.xcassets" / "AppIcon.appiconset" / "icon-1024.png", 1024)

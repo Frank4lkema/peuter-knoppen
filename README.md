@@ -18,6 +18,16 @@ Offline werken kan alleen via HTTPS, dus de map moet één keer online staan (bi
 2. Open de app één keer vanaf het beginscherm terwijl je online bent.
 3. Controleer het thuis: zet de vliegtuigmodus aan en open de app opnieuw.
 
+## Als iOS-app
+
+De map `ios/` verpakt dezelfde webcode als echte app, zodat hij zonder internet werkt en het scherm aan blijft.
+
+1. Sluit de iPhone aan en zet op de iPhone Ontwikkelaarsmodus aan (Instellingen > Privacy en beveiliging).
+2. Open `ios/Knoppen.xcodeproj` in Xcode, kies de iPhone bovenaan en druk op Run.
+3. De eerste keer: vertrouw de ontwikkelaar op de iPhone via Instellingen > Algemeen > VPN en apparaatbeheer.
+
+Met een gratis Apple-account werkt de app 7 dagen; daarna opnieuw op Run drukken. Na wijzigingen in `project.yml`: `xcodegen generate` in de map `ios/`.
+
 ## Begeleide toegang
 
 1. Zet het eenmalig aan: Instellingen > Toegankelijkheid > Begeleide toegang, stel een toegangscode in en zet Automatische vergrendeling op Nooit.

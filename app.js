@@ -300,8 +300,68 @@ const FARM = [
   },
 ];
 
-// The player moves on to the next set at every party.
-const FIGURE_SETS = [SHAPES, ANIMALS, SEA_ANIMALS, VEHICLES, SAFARI_ANIMALS, FARM];
+function sunRays() {
+  let rays = '';
+  for (let i = 0; i < 12; i++) {
+    const angle = ((Math.PI * 2) / 12) * i;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    rays += `M${50 + 38 * cos} ${50 + 38 * sin}L${50 + 47 * cos} ${50 + 47 * sin}`;
+  }
+  return rays;
+}
+
+const SPARKLE = (x, y) => `<path d="M${x} ${y - 7}l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fff"/>`;
+
+const SKY = [
+  {
+    color: COLORS[1],
+    outline: `<path d="${sunRays()}" stroke-width="7" stroke-linecap="round"/><circle cx="50" cy="50" r="33"/>`,
+    under: '<circle cx="26" cy="58" r="5" fill="#ff9a6b"/><circle cx="74" cy="58" r="5" fill="#ff9a6b"/>',
+    over: '',
+    sound: sunny,
+  },
+  {
+    color: { top: '#fff3b0', side: '#d9c46a' },
+    // A crescent: the outer circle minus a circle shifted to the top right.
+    outline: '<path d="M62.8 7.9A44 44 0 1 0 88.9 70.6A34 34 0 0 1 62.8 7.9Z"/>',
+    under: '<circle cx="36" cy="82" r="4" fill="#e6d58a"/><circle cx="20" cy="30" r="3" fill="#e6d58a"/>',
+    over: '',
+    face: 'translate(26 52) scale(0.6) translate(-50 -50)',
+    sound: lullaby,
+  },
+  {
+    color: { top: '#fff07a', side: '#d9c22b' },
+    outline: `<polygon points="${starPoints()}" stroke-width="10" stroke-linejoin="round"/>`,
+    under: '',
+    over: `${SPARKLE(90, 14)}${SPARKLE(10, 84)}`,
+    sound: twinkle,
+  },
+  {
+    color: { top: '#d3e2ff', side: '#9fb2e0' },
+    outline: '<circle cx="30" cy="56" r="20"/><circle cx="52" cy="44" r="26"/><circle cx="74" cy="56" r="20"/><rect x="12" y="52" width="76" height="26" rx="13"/>',
+    under: '',
+    over: '',
+    sound: wind,
+  },
+  {
+    color: COLORS[3],
+    outline: '<path d="M50 4C50 4 84 42 84 62A34 34 0 0 1 16 62C16 42 50 4 50 4Z"/>',
+    under: '<ellipse cx="30" cy="62" rx="5" ry="10" fill="#fff" fill-opacity="0.5"/>',
+    over: '',
+    sound: drip,
+  },
+  {
+    color: COLORS[0],
+    outline: '<path d="M4 80A46 46 0 0 1 96 80H70A20 20 0 0 0 30 80Z"/>',
+    under: '<path d="M10.75 80A39.25 39.25 0 0 1 89.25 80" fill="none" stroke="#ffc928" stroke-width="6.5"/><path d="M17.25 80A32.75 32.75 0 0 1 82.75 80" fill="none" stroke="#2ed9a3" stroke-width="6.5"/><path d="M23.75 80A26.25 26.25 0 0 1 76.25 80" fill="none" stroke="#38b6ff" stroke-width="6.5"/>',
+    over: '<g fill="#fff"><circle cx="10" cy="82" r="9"/><circle cx="22" cy="84" r="7"/><circle cx="90" cy="82" r="9"/><circle cx="78" cy="84" r="7"/></g>',
+    face: 'translate(50 47) scale(0.5) translate(-50 -52)',
+    sound: rainbowSweep,
+  },
+];
+
+const FIGURE_SETS = [SHAPES, ANIMALS, SEA_ANIMALS, VEHICLES, SAFARI_ANIMALS, FARM, SKY];
 
 const FACE = `
   <g class="face-idle">
@@ -543,6 +603,37 @@ function putput(note) {
   }
 }
 
+function sunny(note) {
+  [1, 1.25, 1.5, 2].forEach((step, i) => {
+    tone(note * step, { duration: 0.25, delay: i * 0.06, level: 0.35 });
+  });
+}
+
+function lullaby(note) {
+  tone(note * 0.5, { duration: 0.4, level: 0.45 });
+  tone(note * 0.75, { duration: 0.5, delay: 0.35, level: 0.4 });
+}
+
+function twinkle(note) {
+  [1, 1.5, 1.25, 2].forEach((step, i) => {
+    tone(note * 2 * step, { duration: 0.08, delay: i * 0.07, level: 0.3 });
+  });
+}
+
+function wind(note) {
+  tone(note * 1.2, { to: note * 0.5, duration: 0.5, level: 0.3, vibrato: 0.03 });
+}
+
+function drip(note) {
+  tone(note * 2, { to: note * 0.9, duration: 0.12, level: 0.5 });
+}
+
+function rainbowSweep() {
+  NOTES.forEach((note, i) => {
+    tone(note, { duration: 0.15, delay: i * 0.05, level: 0.3 });
+  });
+}
+
 function fanfare() {
   NOTES.forEach((note, i) => {
     tone(note, { type: 'triangle', duration: 0.3, level: 0.45, delay: i * 0.09 });
@@ -553,6 +644,30 @@ function fanfare() {
 
 const toys = [];
 let popCount = 0;
+
+function shuffled(items) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+// Sets come from a shuffled pile, so every set shows up before any repeats,
+// and the same set never comes twice in a row.
+let setPile = [];
+let currentSet = null;
+
+function nextSet() {
+  if (!setPile.length) {
+    setPile = shuffled(FIGURE_SETS);
+    if (setPile[0] === currentSet) setPile.push(setPile.shift());
+  }
+  return setPile.shift();
+}
+
+currentSet = nextSet();
 
 function baseSize() {
   const shortSide = Math.min(stage.clientWidth, stage.clientHeight);
@@ -584,8 +699,7 @@ function placeToy(toy) {
 }
 
 function pickFigure() {
-  const set = FIGURE_SETS[Math.floor(popCount / PARTY_EVERY) % FIGURE_SETS.length];
-  const shape = randomItem(set);
+  const shape = randomItem(currentSet);
   return { shape, color: shape.color || randomItem(COLORS) };
 }
 
@@ -599,7 +713,7 @@ function createToyElement(radius, { shape, color }) {
       <g fill="${color.side}" stroke="${color.side}" transform="translate(0 6)">${shape.outline}</g>
       <g fill="${color.top}" stroke="${color.top}">${shape.outline}</g>
       ${shape.under || ''}
-      ${FACE}
+      ${shape.face ? `<g transform="${shape.face}">${FACE}</g>` : FACE}
       ${shape.over || ''}
     </svg>`;
   return element;
@@ -670,6 +784,7 @@ function pressToy(toy) {
 
   popCount++;
   if (popCount % PARTY_EVERY === 0) {
+    currentSet = nextSet();
     changeToys();
     party();
   }

@@ -1,6 +1,6 @@
 # Knoppen
 
-Speelgoed-website voor een peuter: er verschijnen knoppen met gezichtjes, indrukken geeft een geluidje en dan zijn ze weg. Elke 15 knoppen (`PARTY_EVERY` in `app.js`) is er een klein feestje en veranderen de figuren: van vormen naar beestjes, vissen, voertuigen, safaridieren, de boerderij en weer terug. Geen tekst, geen reclame, geen netwerk nodig na de eerste keer laden.
+Speelgoed-website voor een peuter: er verschijnen knoppen met gezichtjes, indrukken geeft een geluidje en dan zijn ze weg. Elke 15 knoppen (`PARTY_EVERY` in `app.js`) is er een klein feestje en veranderen de figuren in een andere wereld: vormen, beestjes, vissen, voertuigen, safaridieren, de boerderij of de lucht. De volgorde is willekeurig, maar elke wereld komt langs voordat er een terugkomt. Geen tekst, geen reclame, geen netwerk nodig na de eerste keer laden.
 
 ## Lokaal draaien
 

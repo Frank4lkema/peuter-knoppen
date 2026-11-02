@@ -1,7 +1,7 @@
 'use strict';
 
 // Bump the version after changing any file, so devices pick up the new copy.
-const CACHE = 'knoppen-v4';
+const CACHE = 'knoppen-v5';
 const FILES = [
   './',
   'index.html',

@@ -143,8 +143,165 @@ const VEHICLES = [
   },
 ];
 
+function ringOfCircles(count, ringRadius, radius) {
+  let circles = '';
+  for (let i = 0; i < count; i++) {
+    const angle = ((Math.PI * 2) / count) * i;
+    circles += `<circle cx="${50 + ringRadius * Math.cos(angle)}" cy="${50 + ringRadius * Math.sin(angle)}" r="${radius}"/>`;
+  }
+  return circles;
+}
+
+function spikyPoints(count, outer, inner) {
+  const points = [];
+  for (let i = 0; i < count * 2; i++) {
+    const radius = i % 2 === 0 ? outer : inner;
+    const angle = (Math.PI / count) * i;
+    points.push(`${50 + radius * Math.cos(angle)},${52 + radius * Math.sin(angle)}`);
+  }
+  return points.join(' ');
+}
+
+const NOSTRILS = (y, color) => `<ellipse cx="42" cy="${y}" rx="3" ry="2.5" fill="${color}"/><ellipse cx="58" cy="${y}" rx="3" ry="2.5" fill="${color}"/>`;
+const BEAK = '<polygon points="41,57 59,57 50,69" fill="#ff8a1f" stroke="#ff8a1f" stroke-width="3" stroke-linejoin="round"/>';
+
+const SEA_ANIMALS = [
+  {
+    color: COLORS[5],
+    outline: '<polygon points="76,52 98,28 98,76" stroke-width="8" stroke-linejoin="round"/><polygon points="34,26 52,10 62,26" stroke-width="6" stroke-linejoin="round"/><ellipse cx="46" cy="52" rx="40" ry="30"/>',
+    under: '<path d="M74 40q6 12 0 24" fill="none" stroke="#cf6410" stroke-width="3" stroke-linecap="round"/>',
+    over: '',
+    sound: blub,
+  },
+  {
+    color: COLORS[1],
+    outline: `<polygon points="${spikyPoints(16, 47, 37)}" stroke-width="4" stroke-linejoin="round"/>`,
+    under: '<ellipse cx="50" cy="74" rx="24" ry="12" fill="#fff3b0"/>',
+    over: '',
+    sound: whoosh,
+  },
+  {
+    color: { top: '#ff9ad5', side: '#cc5fa3' },
+    outline: '<path d="M10 70A40 40 0 0 1 90 70Q80 76 70 70Q60 76 50 70Q40 76 30 70Q20 76 10 70Z"/><path d="M24 74q-6 10 0 20M42 76q6 10 0 20M58 76q-6 10 0 20M76 74q6 10 0 20" fill="none" stroke-width="6" stroke-linecap="round"/>',
+    under: '',
+    over: '',
+    sound: chime,
+  },
+  {
+    color: COLORS[0],
+    outline: '<path d="M24 44L16 34M76 44L84 34" stroke-width="8" stroke-linecap="round"/><path d="M18 70L4 78M18 60L4 62M82 70L96 78M82 60L96 62" stroke-width="6" stroke-linecap="round"/><circle cx="14" cy="28" r="12"/><circle cx="86" cy="28" r="12"/><ellipse cx="50" cy="60" rx="36" ry="26"/>',
+    under: '',
+    over: '',
+    sound: clack,
+  },
+  {
+    color: { top: '#a77bff', side: '#7448d1' },
+    outline: '<path d="M22 62q-8 18 2 30M40 70q-4 16 4 26M60 70q4 16 -4 26M78 62q8 18 -2 30" fill="none" stroke-width="9" stroke-linecap="round"/><circle cx="50" cy="42" r="34"/>',
+    under: '',
+    over: '',
+    sound: blub,
+  },
+  {
+    color: COLORS[3],
+    outline: '<path d="M8 60Q8 24 50 24Q84 24 88 52L98 36V72L86 62Q80 84 46 84Q8 84 8 60Z"/>',
+    under: '<path d="M14 66Q46 86 82 64Q78 82 46 82Q18 82 14 66Z" fill="#bfe9ff"/>',
+    over: '<path d="M50 22V8M50 14Q40 4 32 8M50 14Q60 4 68 8" fill="none" stroke="#bfe9ff" stroke-width="4" stroke-linecap="round"/>',
+    sound: whaleSong,
+  },
+];
+
+const SAFARI_ANIMALS = [
+  {
+    color: { top: '#c8742a', side: '#97520f' },
+    outline: `${ringOfCircles(10, 34, 14)}<circle cx="50" cy="50" r="36"/>`,
+    under: '<circle cx="28" cy="28" r="7" fill="#ffc34d"/><circle cx="72" cy="28" r="7" fill="#ffc34d"/><circle cx="50" cy="52" r="29" fill="#ffc34d"/>',
+    over: '<path d="M45 55h10l-5 5z" fill="#6b3a10"/>',
+    sound: roar,
+  },
+  {
+    color: { top: '#a3aed0', side: '#6f7aa0' },
+    outline: '<ellipse cx="16" cy="46" rx="16" ry="24"/><ellipse cx="84" cy="46" rx="16" ry="24"/><circle cx="50" cy="44" r="32"/><path d="M50 58Q48 88 66 88" fill="none" stroke-width="15" stroke-linecap="round"/>',
+    under: '<ellipse cx="16" cy="46" rx="9" ry="16" fill="#ffc2dc"/><ellipse cx="84" cy="46" rx="9" ry="16" fill="#ffc2dc"/>',
+    over: '',
+    sound: trumpet,
+  },
+  {
+    color: { top: '#ffcf4a', side: '#d99a12' },
+    outline: '<rect x="32" y="8" width="7" height="22" rx="3"/><rect x="61" y="8" width="7" height="22" rx="3"/><ellipse cx="14" cy="38" rx="13" ry="6"/><ellipse cx="86" cy="38" rx="13" ry="6"/><ellipse cx="50" cy="56" rx="32" ry="36"/>',
+    under: '<circle cx="35.5" cy="9" r="6" fill="#a8622a"/><circle cx="64.5" cy="9" r="6" fill="#a8622a"/><circle cx="26" cy="72" r="6" fill="#c9782f"/><circle cx="76" cy="70" r="7" fill="#c9782f"/><circle cx="72" cy="28" r="5" fill="#c9782f"/><ellipse cx="50" cy="74" rx="18" ry="12" fill="#ffe7a8"/>',
+    over: '',
+    sound: hop,
+  },
+  {
+    color: { top: '#f4f4ff', side: '#b7b9d6' },
+    outline: '<polygon points="24,30 26,6 42,20" stroke-width="6" stroke-linejoin="round"/><polygon points="76,30 74,6 58,20" stroke-width="6" stroke-linejoin="round"/><ellipse cx="50" cy="54" rx="32" ry="38"/>',
+    under: '<path d="M50 16V30M38 20L42 32M62 20L58 32M19 46H29M71 46H81M20 58H30M70 58H80" stroke="#23203f" stroke-width="5" stroke-linecap="round"/><ellipse cx="50" cy="76" rx="20" ry="14" fill="#9aa0c4"/>',
+    over: NOSTRILS(80, '#23203f'),
+    sound: neigh,
+  },
+  {
+    color: { top: '#a8683a', side: '#7a4520' },
+    outline: '<circle cx="14" cy="48" r="12"/><circle cx="86" cy="48" r="12"/><circle cx="50" cy="52" r="36"/>',
+    under: '<circle cx="14" cy="48" r="6" fill="#f2c9a0"/><circle cx="86" cy="48" r="6" fill="#f2c9a0"/><circle cx="38" cy="45" r="14" fill="#f2c9a0"/><circle cx="62" cy="45" r="14" fill="#f2c9a0"/><ellipse cx="50" cy="66" rx="22" ry="16" fill="#f2c9a0"/>',
+    over: '',
+    sound: monkey,
+  },
+  {
+    color: { top: '#a58fc9', side: '#7660a0' },
+    outline: '<circle cx="28" cy="16" r="8"/><circle cx="72" cy="16" r="8"/><ellipse cx="50" cy="40" rx="30" ry="26"/><ellipse cx="50" cy="66" rx="42" ry="24"/>',
+    under: '<circle cx="28" cy="16" r="4" fill="#ffc2dc"/><circle cx="72" cy="16" r="4" fill="#ffc2dc"/>',
+    over: '<ellipse cx="28" cy="64" rx="4" ry="3" fill="#4d3a73"/><ellipse cx="72" cy="64" rx="4" ry="3" fill="#4d3a73"/>',
+    sound: growl,
+  },
+];
+
+const FARM = [
+  {
+    color: { top: '#f7f4ef', side: '#c5bfb3' },
+    outline: '<ellipse cx="14" cy="38" rx="13" ry="7"/><ellipse cx="86" cy="38" rx="13" ry="7"/><ellipse cx="50" cy="52" rx="32" ry="38"/>',
+    under: '<path d="M30 20Q18 16 16 4M70 20Q82 16 84 4" fill="none" stroke="#e3c98f" stroke-width="7" stroke-linecap="round"/><ellipse cx="30" cy="28" rx="10" ry="7" fill="#23203f"/><ellipse cx="74" cy="60" rx="6" ry="10" fill="#23203f"/><ellipse cx="50" cy="74" rx="26" ry="16" fill="#ffb9d6"/>',
+    over: NOSTRILS(78, '#cc5a8c'),
+    sound: moo,
+  },
+  {
+    color: { top: '#ffffff', side: '#c9cde3' },
+    outline: `${ringOfCircles(9, 32, 15)}<circle cx="50" cy="50" r="34"/>`,
+    under: '<ellipse cx="16" cy="46" rx="11" ry="6" fill="#d9c4a8"/><ellipse cx="84" cy="46" rx="11" ry="6" fill="#d9c4a8"/><ellipse cx="50" cy="54" rx="26" ry="30" fill="#e8d9c4"/>',
+    over: '',
+    sound: baa,
+  },
+  {
+    color: { top: '#c07a3e', side: '#8b521f' },
+    outline: '<polygon points="28,24 30,4 44,16" stroke-width="6" stroke-linejoin="round"/><polygon points="72,24 70,4 56,16" stroke-width="6" stroke-linejoin="round"/><ellipse cx="50" cy="52" rx="30" ry="40"/>',
+    under: '<path d="M38 16Q50 4 62 16L58 26H42Z" fill="#5a3414"/><ellipse cx="50" cy="76" rx="22" ry="15" fill="#e3b07f"/>',
+    over: NOSTRILS(80, '#5a3414'),
+    sound: neigh,
+  },
+  {
+    color: { top: '#fbfbff', side: '#c3c6dd' },
+    outline: '<path d="M50 18Q54 4 64 6" fill="none" stroke-width="6" stroke-linecap="round"/><circle cx="50" cy="52" r="36"/>',
+    under: '',
+    over: '<ellipse cx="50" cy="66" rx="18" ry="8" fill="#ff8a1f"/><path d="M34 66H66" stroke="#cf6410" stroke-width="2"/>',
+    sound: quack,
+  },
+  {
+    color: { top: '#fff1d6', side: '#d9b98a' },
+    outline: '<circle cx="50" cy="54" r="36"/>',
+    under: '<circle cx="38" cy="20" r="9" fill="#ff5a4f"/><circle cx="50" cy="15" r="10" fill="#ff5a4f"/><circle cx="62" cy="20" r="9" fill="#ff5a4f"/>',
+    over: `${BEAK}<ellipse cx="50" cy="77" rx="6" ry="8" fill="#ff5a4f"/>`,
+    sound: crow,
+  },
+  {
+    color: { top: '#3fae49', side: '#23762c' },
+    outline: '<rect x="74" y="8" width="7" height="24" rx="3"/><rect x="10" y="10" width="46" height="56" rx="8"/><rect x="36" y="32" width="58" height="36" rx="8"/>',
+    under: `<rect x="17" y="16" width="32" height="12" rx="3" fill="${WINDOW_BLUE}"/>`,
+    over: `${WHEEL(26, 77, 16)}${WHEEL(80, 80, 12)}`,
+    sound: putput,
+  },
+];
+
 // The player moves on to the next set at every party.
-const FIGURE_SETS = [SHAPES, ANIMALS, VEHICLES];
+const FIGURE_SETS = [SHAPES, ANIMALS, SEA_ANIMALS, VEHICLES, SAFARI_ANIMALS, FARM];
 
 const FACE = `
   <g class="face-idle">
@@ -189,7 +346,7 @@ function unlockAudio() {
   }
 }
 
-function tone(frequency, { to = frequency, type = 'sine', duration = 0.2, level = 0.6, delay = 0 } = {}) {
+function tone(frequency, { to = frequency, type = 'sine', duration = 0.2, level = 0.6, delay = 0, vibrato = 0 } = {}) {
   const start = audio.currentTime + delay;
   const oscillator = audio.createOscillator();
   const envelope = audio.createGain();
@@ -202,6 +359,16 @@ function tone(frequency, { to = frequency, type = 'sine', duration = 0.2, level 
   oscillator.connect(envelope).connect(master);
   oscillator.start(start);
   oscillator.stop(start + duration + 0.02);
+  if (vibrato) {
+    // Wobbles the pitch, which makes animal voices sound alive.
+    const wobble = audio.createOscillator();
+    const depth = audio.createGain();
+    wobble.frequency.value = 7;
+    depth.gain.value = frequency * vibrato;
+    wobble.connect(depth).connect(oscillator.frequency);
+    wobble.start(start);
+    wobble.stop(start + duration + 0.02);
+  }
 }
 
 function bloop(note) {
@@ -301,6 +468,78 @@ function rotor(note) {
   const pitch = note / 700;
   for (let i = 0; i < 7; i++) {
     tone(200 * pitch, { type: 'square', duration: 0.04, delay: i * 0.06, level: 0.22 });
+  }
+}
+
+function blub(note) {
+  for (let i = 0; i < 3; i++) {
+    const step = 1 + i * 0.15;
+    tone(note * 0.7 * step, { to: note * 1.5 * step, duration: 0.07, delay: i * 0.09, level: 0.4 });
+  }
+}
+
+function clack(note) {
+  const pitch = note / 700;
+  tone(1200 * pitch, { type: 'square', duration: 0.03, level: 0.2 });
+  tone(1000 * pitch, { type: 'square', duration: 0.03, delay: 0.1, level: 0.2 });
+}
+
+function whaleSong(note) {
+  const pitch = note / 700;
+  tone(300 * pitch, { to: 520 * pitch, duration: 0.35, level: 0.45 });
+  tone(520 * pitch, { to: 260 * pitch, duration: 0.45, delay: 0.33, level: 0.4 });
+}
+
+function roar(note) {
+  const pitch = note / 700;
+  tone(260 * pitch, { to: 110 * pitch, type: 'sawtooth', duration: 0.5, level: 0.35, vibrato: 0.08 });
+}
+
+function trumpet(note) {
+  const pitch = note / 700;
+  tone(400 * pitch, { to: 800 * pitch, type: 'sawtooth', duration: 0.45, level: 0.25, vibrato: 0.04 });
+}
+
+function monkey(note) {
+  const pitch = note / 700;
+  tone(500 * pitch, { to: 900 * pitch, duration: 0.12, level: 0.4 });
+  tone(500 * pitch, { to: 900 * pitch, duration: 0.12, delay: 0.14, level: 0.4 });
+  tone(700 * pitch, { to: 1300 * pitch, duration: 0.18, delay: 0.28, level: 0.4 });
+}
+
+function moo(note) {
+  const pitch = note / 700;
+  tone(220 * pitch, { to: 160 * pitch, type: 'sawtooth', duration: 0.7, level: 0.3 });
+}
+
+function baa(note) {
+  const pitch = note / 700;
+  tone(420 * pitch, { to: 380 * pitch, type: 'sawtooth', duration: 0.5, level: 0.22, vibrato: 0.06 });
+}
+
+function neigh(note) {
+  const pitch = note / 700;
+  tone(900 * pitch, { to: 500 * pitch, type: 'triangle', duration: 0.5, level: 0.35, vibrato: 0.08 });
+}
+
+function quack(note) {
+  const pitch = note / 700;
+  tone(500 * pitch, { to: 400 * pitch, type: 'square', duration: 0.12, level: 0.18 });
+  tone(500 * pitch, { to: 400 * pitch, type: 'square', duration: 0.12, delay: 0.16, level: 0.18 });
+}
+
+function crow(note) {
+  const pitch = note / 700;
+  [[600, 0.1], [800, 0.1], [800, 0.1], [700, 0.35]].reduce((delay, [frequency, duration]) => {
+    tone(frequency * pitch, { type: 'triangle', duration, delay, level: 0.4 });
+    return delay + duration + 0.02;
+  }, 0);
+}
+
+function putput(note) {
+  const pitch = note / 700;
+  for (let i = 0; i < 5; i++) {
+    tone(160 * pitch, { type: 'square', duration: 0.05, delay: i * 0.09, level: 0.25 });
   }
 }
 

@@ -361,7 +361,76 @@ const SKY = [
   },
 ];
 
-const FIGURE_SETS = [SHAPES, ANIMALS, SEA_ANIMALS, VEHICLES, SAFARI_ANIMALS, FARM, SKY];
+const POLAR_ANIMALS = [
+  {
+    color: { top: '#dfe7fb', side: '#a9b5d6' },
+    outline: '<circle cx="22" cy="26" r="14"/><circle cx="78" cy="26" r="14"/><circle cx="50" cy="54" r="38"/>',
+    under: '<circle cx="22" cy="26" r="7" fill="#c3cde9"/><circle cx="78" cy="26" r="7" fill="#c3cde9"/><ellipse cx="50" cy="66" rx="19" ry="14" fill="#f4f7ff"/>',
+    over: '<ellipse cx="50" cy="57" rx="6" ry="4" fill="#23203f"/>',
+    sound: growl,
+  },
+  {
+    color: { top: '#3d4566', side: '#262b45' },
+    outline: '<ellipse cx="12" cy="60" rx="8" ry="18"/><ellipse cx="88" cy="60" rx="8" ry="18"/><ellipse cx="50" cy="52" rx="36" ry="40"/>',
+    under: '<circle cx="37" cy="45" r="16" fill="#fff"/><circle cx="63" cy="45" r="16" fill="#fff"/><ellipse cx="50" cy="68" rx="26" ry="22" fill="#fff"/>',
+    over: `${BEAK}<ellipse cx="38" cy="93" rx="9" ry="4" fill="#ff8a1f"/><ellipse cx="62" cy="93" rx="9" ry="4" fill="#ff8a1f"/>`,
+    sound: squawk,
+  },
+  {
+    color: { top: '#9aa7bd', side: '#6d7a92' },
+    outline: '<circle cx="50" cy="50" r="38"/>',
+    under: '<ellipse cx="40" cy="64" rx="12" ry="10" fill="#c2cbdb"/><ellipse cx="60" cy="64" rx="12" ry="10" fill="#c2cbdb"/>',
+    over: '<ellipse cx="50" cy="57" rx="6" ry="4" fill="#23203f"/><path d="M28 62H14M28 68L15 72M72 62H86M72 68L85 72" stroke="#23203f" stroke-width="2" stroke-linecap="round"/>',
+    sound: ork,
+  },
+  {
+    color: { top: '#b0805a', side: '#7d5536' },
+    outline: '<ellipse cx="50" cy="50" rx="40" ry="36"/>',
+    under: '<circle cx="39" cy="63" r="12" fill="#d9a982"/><circle cx="61" cy="63" r="12" fill="#d9a982"/>',
+    over: '<ellipse cx="50" cy="56" rx="6" ry="4" fill="#23203f"/><rect x="36" y="70" width="7" height="24" rx="3.5" fill="#fffaf0"/><rect x="57" y="70" width="7" height="24" rx="3.5" fill="#fffaf0"/>',
+    sound: moo,
+  },
+  {
+    color: { top: '#e9eefc', side: '#aab4d8' },
+    outline: '<polygon points="16,40 20,6 42,24" stroke-width="6" stroke-linejoin="round"/><polygon points="84,40 80,6 58,24" stroke-width="6" stroke-linejoin="round"/><polygon points="10,30 90,30 50,92" stroke-width="12" stroke-linejoin="round"/>',
+    under: '<polygon points="23,30 24,14 36,24" fill="#ffc2dc"/><polygon points="77,30 76,14 64,24" fill="#ffc2dc"/>',
+    over: '<ellipse cx="50" cy="84" rx="6" ry="4" fill="#23203f"/>',
+    sound: yip,
+  },
+  {
+    color: { top: '#f0f2fb', side: '#b3b9d4' },
+    outline: '<polygon points="18,30 20,6 38,20" stroke-width="6" stroke-linejoin="round"/><polygon points="82,30 80,6 62,20" stroke-width="6" stroke-linejoin="round"/><ellipse cx="50" cy="54" rx="38" ry="38"/>',
+    under: '<circle cx="37" cy="44" r="14" fill="#ffd84d"/><circle cx="63" cy="44" r="14" fill="#ffd84d"/><circle cx="26" cy="76" r="2.5" fill="#23203f"/><circle cx="36" cy="84" r="2.5" fill="#23203f"/><circle cx="64" cy="84" r="2.5" fill="#23203f"/><circle cx="74" cy="76" r="2.5" fill="#23203f"/>',
+    over: '<polygon points="45,58 55,58 50,68" fill="#ff8a1f" stroke="#ff8a1f" stroke-width="3" stroke-linejoin="round"/>',
+    sound: hoot,
+  },
+];
+
+// Each number is a thick stroke with a small face on it, and says its name out loud.
+const NUMBER_WORDS = ['een', 'twee', 'drie', 'vier', 'vijf', 'zes', 'zeven', 'acht', 'negen', 'tien'];
+const NUMBER_STROKES = [
+  { path: '<path d="M36 30L56 14V86"/>', faceAt: [56, 60] },
+  { path: '<path d="M28 32Q30 14 50 14Q72 14 72 34Q72 50 50 64L28 86H74"/>', faceAt: [52, 86] },
+  { path: '<path d="M30 20Q50 8 66 18Q78 30 64 44Q56 50 46 50Q60 50 68 58Q80 74 64 84Q48 94 28 82"/>', faceAt: [50, 12] },
+  { path: '<path d="M62 86V14L24 64H78"/>', faceAt: [62, 38] },
+  { path: '<path d="M70 14H34L30 46Q46 38 60 44Q76 52 72 70Q66 88 46 86Q34 85 28 78"/>', faceAt: [52, 14] },
+  { path: '<path d="M66 18Q56 12 46 14Q26 20 26 54Q26 86 50 86Q74 86 74 64Q74 44 52 44Q34 44 28 58"/>', faceAt: [50, 86] },
+  { path: '<path d="M26 14H74L44 86"/>', faceAt: [50, 14] },
+  { path: '<circle cx="50" cy="31" r="17"/><circle cx="50" cy="67" r="19"/>', faceAt: [50, 86] },
+  { path: '<path d="M72 46Q66 58 50 58Q28 58 28 36Q28 14 50 14Q72 14 72 40Q72 74 56 84Q44 90 32 84"/>', faceAt: [50, 14] },
+  { path: '<path d="M20 28L34 16V86"/><ellipse cx="66" cy="50" rx="18" ry="34"/>', faceAt: [34, 60] },
+];
+
+const NUMBERS = NUMBER_STROKES.map(({ path, faceAt: [x, y] }, i) => ({
+  color: COLORS[i % COLORS.length],
+  outline: `<g fill="none" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">${path}</g>`,
+  under: '',
+  over: '',
+  face: `translate(${x} ${y}) scale(0.42) translate(-50 -52)`,
+  sound: (note) => sayNumber(NUMBER_WORDS[i], note),
+}));
+
+const FIGURE_SETS = [SHAPES, ANIMALS, SEA_ANIMALS, VEHICLES, SAFARI_ANIMALS, FARM, SKY, POLAR_ANIMALS, NUMBERS];
 
 const FACE = `
   <g class="face-idle">
@@ -634,6 +703,46 @@ function rainbowSweep() {
   });
 }
 
+function squawk(note) {
+  const pitch = note / 700;
+  tone(700 * pitch, { to: 950 * pitch, type: 'square', duration: 0.1, level: 0.18 });
+  tone(750 * pitch, { to: 1000 * pitch, type: 'square', duration: 0.12, delay: 0.13, level: 0.18 });
+}
+
+function ork(note) {
+  const pitch = note / 700;
+  tone(320 * pitch, { to: 260 * pitch, type: 'sawtooth', duration: 0.1, level: 0.28 });
+  tone(340 * pitch, { to: 270 * pitch, type: 'sawtooth', duration: 0.12, delay: 0.15, level: 0.28 });
+}
+
+function yip(note) {
+  tone(note * 1.2, { to: note * 2, duration: 0.08, level: 0.4 });
+  tone(note * 1.3, { to: note * 2.2, duration: 0.1, delay: 0.12, level: 0.4 });
+}
+
+function hoot(note) {
+  const pitch = note / 700;
+  tone(440 * pitch, { to: 420 * pitch, duration: 0.22, level: 0.5 });
+  tone(400 * pitch, { to: 370 * pitch, duration: 0.4, delay: 0.3, level: 0.5 });
+}
+
+function dutchVoice() {
+  return window.speechSynthesis?.getVoices().find((voice) => voice.lang.toLowerCase().startsWith('nl'));
+}
+
+function sayNumber(word, note) {
+  tone(note, { duration: 0.15, level: 0.3 });
+  const voice = dutchVoice();
+  if (!voice) return;
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.voice = voice;
+  utterance.lang = voice.lang;
+  utterance.rate = 0.9;
+  utterance.pitch = 1.2;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
 function fanfare() {
   NOTES.forEach((note, i) => {
     tone(note, { type: 'triangle', duration: 0.3, level: 0.45, delay: i * 0.09 });
@@ -855,6 +964,14 @@ window.addEventListener('resize', onResize);
 ['pointerup', 'touchend', 'click'].forEach((type) => {
   window.addEventListener(type, unlockAudio);
 });
+
+// Speech has the same rule: an empty sentence at the end of the first touch unlocks it.
+function unlockSpeech() {
+  if (!window.speechSynthesis) return;
+  speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+  ['touchend', 'click'].forEach((type) => window.removeEventListener(type, unlockSpeech));
+}
+['touchend', 'click'].forEach((type) => window.addEventListener(type, unlockSpeech));
 
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') keepScreenAwake();
